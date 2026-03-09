@@ -49,8 +49,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build Docker image
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner | lower }}/url-shortener:latest -t ghcr.io/${{ github.repository_owner | lower }}/url-shortener:${{ github.sha }} -f docker/Dockerfile .
+          docker build -t ghcr.io/aryasutabaswara/url-shortener:latest -t ghcr.io/aryasutabaswara/url-shortener:${{ github.sha }} -f docker/Dockerfile .
       - name: Push Docker image
         run: |
-          docker push ghcr.io/${{ github.repository_owner | lower }}/url-shortener:latest
-          docker push ghcr.io/${{ github.repository_owner | lower }}/url-shortener:${{ github.sha }}
+          docker push ghcr.io/aryasutabaswara/url-shortener:latest
+          docker push ghcr.io/aryasutabaswara/url-shortener:${{ github.sha }}
