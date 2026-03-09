@@ -1,8 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from sqlalchemy import update, delete
+from sqlalchemy import delete
 from app.models.entities import URL
-from datetime import datetime
 
 class URLRepository:
     def __init__(self, session: AsyncSession):

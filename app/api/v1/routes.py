@@ -1,11 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Request
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import RedirectResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.schemas import ShortenRequest, ShortenResponse, URLStats
 from app.services.url_service import URLService
 from app.core.auth import get_current_user
 from app.models.entities import URL
-from datetime import datetime
 
 # Dependency placeholder for DB session (implement actual session in integration phase)
 def get_db():
@@ -20,7 +19,7 @@ async def shorten_url(request: ShortenRequest, db: AsyncSession = Depends(get_db
         url: URL = await service.shorten_url(request.original_url, request.custom_code)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    short_url = f"/" + url.short_code  # Replace with full domain in production
+    short_url = "/" + url.short_code  # Replace with full domain in production
     return ShortenResponse(
         short_code=url.short_code,
         short_url=short_url,

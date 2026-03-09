@@ -1,4 +1,4 @@
-from fastapi import Depends, HTTPException, status
+from fastapi import HTTPException, status
 
 def get_current_user():
     # Placeholder for Keycloak authentication

@@ -4,7 +4,7 @@ from typing import Optional
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.entities import URL
 from app.repositories.url_repository import URLRepository
-from datetime import datetime, timedelta
+from datetime import datetime
 
 # Placeholder for Redis client (implement actual connection in integration phase)
 class RedisCache:
