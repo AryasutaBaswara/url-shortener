@@ -1,0 +1,11 @@
+namespace: url-shortener-staging
+resources:
+  - ../../base
+patches:
+  - target:
+      kind: Deployment
+      name: url-shortener
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1

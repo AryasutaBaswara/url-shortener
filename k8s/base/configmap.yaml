@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: url-shortener-config
+
+data:
+  APP_ENV: "production"
+  REDIS_URL: "redis://urlshortener-redis:6379/0"
+  KEYCLOAK_URL: "http://urlshortener-keycloak:8081"
+  KEYCLOAK_REALM: "dev"
+  KEYCLOAK_CLIENT_ID: "url-shortener-client"
