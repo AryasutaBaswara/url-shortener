@@ -8,3 +8,4 @@ python-jose[cryptography]
 httpx
 python-dotenv
 alembic
+pytest
