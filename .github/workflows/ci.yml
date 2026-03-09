@@ -14,7 +14,7 @@ jobs:
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: "3.12"
       - name: Install ruff
         run: pip install ruff
       - name: Run ruff
@@ -28,7 +28,7 @@ jobs:
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: "3.12"
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -49,8 +49,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build Docker image
         run: |
-          docker build -t ghcr.io/${{ github.repository }}/url-shortener:latest -t ghcr.io/${{ github.repository }}/url-shortener:${{ github.sha }} -f docker/Dockerfile .
+          docker build -t ghcr.io/${{ github.repository_owner | lower }}/url-shortener:latest -t ghcr.io/${{ github.repository_owner | lower }}/url-shortener:${{ github.sha }} -f docker/Dockerfile .
       - name: Push Docker image
         run: |
-          docker push ghcr.io/${{ github.repository }}/url-shortener:latest
-          docker push ghcr.io/${{ github.repository }}/url-shortener:${{ github.sha }}
+          docker push ghcr.io/${{ github.repository_owner | lower }}/url-shortener:latest
+          docker push ghcr.io/${{ github.repository_owner | lower }}/url-shortener:${{ github.sha }}
