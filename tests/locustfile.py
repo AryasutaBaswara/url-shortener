@@ -1,4 +1,3 @@
-import os
 import random
 from uuid import uuid4
 
@@ -6,18 +5,11 @@ import requests
 from locust import HttpUser, between, task
 
 
-KEYCLOAK_TOKEN_URL = os.getenv(
-    "KEYCLOAK_TOKEN_URL",
-    "http://localhost:8082/realms/url-shortener-realm/protocol/openid-connect/token",
-)
-KEYCLOAK_CLIENT_ID = os.getenv("KEYCLOAK_CLIENT_ID", "url-shortener-client")
-KEYCLOAK_CLIENT_SECRET = os.getenv("KEYCLOAK_CLIENT_SECRET", "staging-secret")
-KEYCLOAK_USERNAME = os.getenv("KEYCLOAK_USERNAME", "staging-user")
-KEYCLOAK_PASSWORD = os.getenv("KEYCLOAK_PASSWORD", "stagingpassword123")
+KEYCLOAK_TOKEN_URL = "http://localhost:8082/realms/url-shortener-realm/protocol/openid-connect/token"
 
 
 class URLShortenerUser(HttpUser):
-    host = os.getenv("LOCUST_HOST", "http://localhost:8001")
+    host = "http://localhost:8001"
     wait_time = between(1, 3)
 
     def on_start(self):
@@ -33,10 +25,10 @@ class URLShortenerUser(HttpUser):
             headers={"Content-Type": "application/x-www-form-urlencoded"},
             data={
                 "grant_type": "password",
-                "client_id": KEYCLOAK_CLIENT_ID,
-                "client_secret": KEYCLOAK_CLIENT_SECRET,
-                "username": KEYCLOAK_USERNAME,
-                "password": KEYCLOAK_PASSWORD,
+                "client_id": "url-shortener-client",
+                "client_secret": "staging-secret",
+                "username": "staging-user",
+                "password": "stagingpassword123",
             },
             timeout=10,
         )
