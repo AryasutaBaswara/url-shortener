@@ -12,10 +12,10 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 from app.models.entities import Base, URL
 
 
-TEST_DATABASE_URL = "postgresql+asyncpg://postgres:postgres@supabase-db:5432/urlshortener"
-TEST_REDIS_URL = "redis://redis:6379/0"
-TEST_KEYCLOAK_URL = "http://keycloak:8081"
-TEST_KEYCLOAK_REALM = "url-shortener-realm"
+TEST_DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://postgres:postgres@supabase-db:5432/urlshortener")
+TEST_REDIS_URL = os.getenv("REDIS_URL", "redis://redis:6379/0")
+TEST_KEYCLOAK_URL = os.getenv("KEYCLOAK_URL", "http://keycloak:8081")
+TEST_KEYCLOAK_REALM = os.getenv("KEYCLOAK_REALM", "url-shortener-realm")
 
 
 @pytest.fixture(scope="session")

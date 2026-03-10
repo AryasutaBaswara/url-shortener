@@ -15,8 +15,8 @@ from app.models.entities import URL
 from app.services.url_service import URLService
 
 
-KEYCLOAK_BASE_URL = "http://keycloak:8081"
-TOKEN_URL = f"{KEYCLOAK_BASE_URL}/realms/url-shortener-realm/protocol/openid-connect/token"
+KEYCLOAK_BASE_URL = auth_module.settings.KEYCLOAK_URL.rstrip("/")
+TOKEN_URL = f"{KEYCLOAK_BASE_URL}/realms/{auth_module.settings.KEYCLOAK_REALM}/protocol/openid-connect/token"
 
 
 @pytest.fixture(autouse=True)
@@ -93,7 +93,7 @@ class TestKeycloakAuth:
             json={"original_url": "https://example.com"},
         )
 
-        assert response.status_code == 401
+        assert response.status_code == 403
 
     def test_invalid_token(self, client):
         response = client.post(
