@@ -58,6 +58,12 @@ spec:
                   key: POSTGRES_PASSWORD
             - name: KC_DB_URL_DATABASE
               value: urlshortener
+            - name: KC_HOSTNAME
+              value: keycloak
+            - name: KC_HOSTNAME_STRICT
+              value: "false"
+            - name: KC_HOSTNAME_PORT
+              value: "8081"
           ports:
             - containerPort: 8081
           resources:

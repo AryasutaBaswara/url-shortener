@@ -1,0 +1,66 @@
+{
+  "id": "url-shortener-realm",
+  "realm": "url-shortener-realm",
+  "displayName": "URL Shortener Staging",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": true,
+  "rememberMe": true,
+  "verifyEmail": true,
+  "accessTokenLifespan": 300,
+  "clients": [
+    {
+      "clientId": "url-shortener-client",
+      "name": "URL Shortener Client",
+      "description": "Staging client for the URL Shortener API",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "secret": "staging-secret",
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "implicitFlowEnabled": false,
+      "frontchannelLogout": true,
+      "fullScopeAllowed": true,
+      "redirectUris": ["https://staging.example.com/*", "http://localhost/*"],
+      "webOrigins": ["+"],
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "staging-user",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "staging-user@example.com",
+      "firstName": "Staging",
+      "lastName": "User",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "stagingpassword123",
+          "temporary": false
+        }
+      ],
+      "requiredActions": []
+    }
+  ]
+}

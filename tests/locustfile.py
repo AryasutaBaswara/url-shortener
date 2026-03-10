@@ -26,9 +26,9 @@ class URLShortenerUser(HttpUser):
             data={
                 "grant_type": "password",
                 "client_id": "url-shortener-client",
-                "client_secret": "dev-secret",
-                "username": "testuser",
-                "password": "testpassword",
+                "client_secret": "staging-secret",
+                "username": "staging-user",
+                "password": "stagingpassword123",
             },
             timeout=10,
         )
