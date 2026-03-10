@@ -46,6 +46,13 @@ jobs:
   integration-test:
     runs-on: ubuntu-latest
     needs: test
+    env:
+      APP_ENV: test
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/urlshortener
+      REDIS_URL: redis://localhost:6379/0
+      KEYCLOAK_URL: http://localhost:8081
+      KEYCLOAK_REALM: url-shortener-realm
+      KEYCLOAK_CLIENT_ID: url-shortener-client
     services:
       postgres:
         image: postgres:15-alpine
@@ -90,10 +97,10 @@ jobs:
       - name: Wait for Keycloak to be ready
         run: |
           for attempt in $(seq 1 30); do
-            if curl --fail --silent http://localhost:8081/realms/master > /dev/null; then
+            if curl --fail --silent "$KEYCLOAK_URL/realms/master" > /dev/null; then
               exit 0
             fi
-            sleep 5
+            sleep 10
           done
           echo "Keycloak did not become ready in time" >&2
           docker logs ci-keycloak || true
@@ -101,7 +108,7 @@ jobs:
       - name: Configure Keycloak realm
         run: |
           export ADMIN_TOKEN=$(curl --silent --show-error --fail \
-            -X POST "http://localhost:8081/realms/master/protocol/openid-connect/token" \
+            -X POST "$KEYCLOAK_URL/realms/master/protocol/openid-connect/token" \
             -H "Content-Type: application/x-www-form-urlencoded" \
             -d "grant_type=password" \
             -d "client_id=admin-cli" \
@@ -114,7 +121,7 @@ jobs:
           import urllib.error
           import urllib.request
 
-          base_url = "http://localhost:8081/admin/realms"
+          base_url = f"{os.environ['KEYCLOAK_URL']}/admin/realms"
           token = os.environ["ADMIN_TOKEN"]
 
           headers = {
@@ -179,13 +186,6 @@ jobs:
           )
           PY
       - name: Run integration and auth tests
-        env:
-          APP_ENV: test
-          DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/urlshortener
-          REDIS_URL: redis://localhost:6379/0
-          KEYCLOAK_URL: http://localhost:8081
-          KEYCLOAK_REALM: url-shortener-realm
-          KEYCLOAK_CLIENT_ID: url-shortener-client
         run: pytest tests/test_integration.py tests/test_auth.py -v
       - name: Show Keycloak logs on failure
         if: failure()
