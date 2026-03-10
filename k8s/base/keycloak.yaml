@@ -46,6 +46,18 @@ spec:
               value: postgresql
             - name: KC_HTTP_PORT
               value: "8081"
+            - name: KC_DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: url-shortener-secret
+                  key: POSTGRES_USER
+            - name: KC_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: url-shortener-secret
+                  key: POSTGRES_PASSWORD
+            - name: KC_DB_URL_DATABASE
+              value: urlshortener
           ports:
             - containerPort: 8081
           resources:
