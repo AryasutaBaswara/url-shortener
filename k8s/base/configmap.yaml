@@ -5,7 +5,8 @@ metadata:
 
 data:
   APP_ENV: "production"
-  REDIS_URL: "redis://urlshortener-redis:6379/0"
-  KEYCLOAK_URL: "http://urlshortener-keycloak:8081"
-  KEYCLOAK_REALM: "dev"
+  DATABASE_URL: "postgresql+asyncpg://postgres:postgres@postgresql:5432/urlshortener"
+  REDIS_URL: "redis://redis:6379/0"
+  KEYCLOAK_URL: "http://keycloak:8081"
+  KEYCLOAK_REALM: "url-shortener-realm"
   KEYCLOAK_CLIENT_ID: "url-shortener-client"

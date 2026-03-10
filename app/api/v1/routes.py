@@ -1,14 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import RedirectResponse
+
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.schemas import ShortenRequest, ShortenResponse, URLStats
 from app.services.url_service import URLService
 from app.core.auth import get_current_user
 from app.models.entities import URL
-
-# Dependency placeholder for DB session (implement actual session in integration phase)
-def get_db():
-    raise NotImplementedError("DB session dependency not implemented")
+from app.core.database import get_db
 
 router = APIRouter()
 
@@ -16,7 +14,7 @@ router = APIRouter()
 async def shorten_url(request: ShortenRequest, db: AsyncSession = Depends(get_db)):
     service = URLService(db)
     try:
-        url: URL = await service.shorten_url(request.original_url, request.custom_code)
+        url: URL = await service.shorten_url(str(request.original_url), request.custom_code)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     short_url = "/" + url.short_code  # Replace with full domain in production
@@ -26,14 +24,6 @@ async def shorten_url(request: ShortenRequest, db: AsyncSession = Depends(get_db
         original_url=url.original_url,
         created_at=url.created_at
     )
-
-@router.get("/{short_code}")
-async def redirect(short_code: str, db: AsyncSession = Depends(get_db)):
-    service = URLService(db)
-    original_url = await service.redirect_url(short_code)
-    if not original_url:
-        raise HTTPException(status_code=404, detail="Short URL not found")
-    return RedirectResponse(original_url)
 
 @router.get("/api/v1/stats/{short_code}", response_model=URLStats, dependencies=[Depends(get_current_user)])
 async def url_stats(short_code: str, db: AsyncSession = Depends(get_db)):
@@ -47,3 +37,11 @@ async def url_stats(short_code: str, db: AsyncSession = Depends(get_db)):
         click_count=url.click_count,
         created_at=url.created_at
     )
+
+@router.get("/{short_code}")
+async def redirect(short_code: str, db: AsyncSession = Depends(get_db)):
+    service = URLService(db)
+    original_url = await service.redirect_url(short_code)
+    if not original_url:
+        raise HTTPException(status_code=404, detail="Short URL not found")
+    return RedirectResponse(original_url)

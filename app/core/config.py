@@ -1,4 +1,4 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     APP_ENV: str = "development"
@@ -8,8 +8,8 @@ class Settings(BaseSettings):
     KEYCLOAK_REALM: str = "your_realm"
     KEYCLOAK_CLIENT_ID: str = "your_client_id"
 
-    class Config:
-        env_file = ".env"
-        extra = "ignore"
+    model_config = SettingsConfigDict(
+        extra="ignore"
+    )
 
 settings = Settings()

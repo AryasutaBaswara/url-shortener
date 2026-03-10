@@ -31,7 +31,7 @@ class URLService:
         if existing:
             raise ValueError("Short code already exists")
         url = URL(
-            original_url=original_url,
+            original_url=str(original_url),
             short_code=short_code,
             expires_at=expires_at
         )
@@ -54,7 +54,9 @@ class URLService:
         return None
 
     async def get_url_stats(self, short_code: str) -> Optional[URL]:
-        return await self.repo.get_by_short_code(short_code)
+        result = await self.repo.get_by_short_code(short_code)
+        print(f"DEBUG stats - short_code: {short_code}, result: {result}")
+        return result
 
     def _generate_short_code(self, length: int = 6) -> str:
         return ''.join(random.choices(string.ascii_letters + string.digits, k=length))

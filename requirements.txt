@@ -9,3 +9,5 @@ httpx
 python-dotenv
 alembic
 pytest
+psycopg2-binary
+pytest-asyncio
