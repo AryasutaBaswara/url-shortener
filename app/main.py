@@ -8,7 +8,10 @@ async def lifespan(app):
     await init_db()
     yield
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(
+    lifespan=lifespan,
+    title="URL-Shortener API",
+    version="1.0.0",)
 
 @app.get("/health")
 async def health_check():
